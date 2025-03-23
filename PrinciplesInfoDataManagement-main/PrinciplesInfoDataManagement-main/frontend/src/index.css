@@ -1,0 +1,194 @@
+/* Reset CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body & General Styles */
+body, html {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  text-align: center;
+}
+
+/* Main App Container */
+.app-container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px 30px;
+}
+
+/* Headers and Text */
+h1, h2, h3, h4, p {
+  margin: 20px 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  text-align: center;
+}
+
+header {
+  background: #3498db;
+  color: white;
+  padding: 20px 0;
+}
+
+header h1 {
+  font-size: 2.5rem;
+}
+
+header nav {
+  margin: 20px 0;
+}
+
+header nav a {
+  text-decoration: none;
+  color: white;
+  font-size: 1.2rem;
+  margin: 0 15px;
+}
+
+header nav a:hover {
+  color: #f1c40f;
+}
+
+/* Centering Content */
+.dashboard, .loan-packager, .search-page {
+  text-align: center;
+  padding: 20px;
+}
+
+/* Form Styles */
+.filter-form {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+  flex-wrap: wrap; /* Prevents form cut-off */
+}
+
+.filter-form input, .filter-form button {
+  padding: 8px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.filter-form input {
+  width: 250px;
+  max-width: 90%;
+}
+
+.filter-form button {
+  background: #3498db;
+  color: white;
+  cursor: pointer;
+}
+
+.filter-form button:hover {
+  background: #2c3e50;
+}
+
+/* Table Styles */
+.mortgage-results-table {
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px auto;
+  border-collapse: collapse;
+}
+
+.mortgage-results-table th, .mortgage-results-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.mortgage-results-table th {
+  background: #3498db;
+  color: white;
+  font-weight: bold;
+}
+
+.mortgage-results-table td {
+  background: #ecf0f1;
+}
+
+.mortgage-results-table tr:nth-child(even) td {
+  background: #f4f4f9;
+}
+
+/* Status Messages */
+.status-message {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  color: #27ae60;
+}
+
+.status-message.error {
+  color: #e74c3c;
+}
+
+/* Loan Packaging Section */
+.loan-packager {
+  text-align: center;
+  padding: 20px;
+}
+
+.confirm-btn {
+  background: #3498db;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.confirm-btn:hover {
+  background: #2c3e50;
+}
+
+/* Loan Details Section */
+.rate-display {
+  margin: 20px 0;
+  padding: 15px;
+  background: #ecf0f1;
+  border-radius: 8px;
+}
+
+.rate-display p {
+  margin: 10px 0;
+  font-size: 1.2rem;
+}
+
+/* Prevent Content Overflow */
+table, p, h1, h2, h3, h4 {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .mortgage-results-table {
+    font-size: 0.9rem;
+  }
+
+  header h1 {
+    font-size: 2rem;
+  }
+
+  button, .confirm-btn {
+    font-size: 0.9rem;
+  }
+
+  .filter-form input {
+    width: 80%;
+  }
+}
