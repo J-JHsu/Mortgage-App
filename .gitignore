@@ -1,0 +1,24 @@
+# Node / frontend
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+
+# Java / Maven
+target/
+**/target/
+*.class
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# HMDA data
+data/
+*.csv
+*.zip
+
+# OS files
+.DS_Store
+Thumbs.db
