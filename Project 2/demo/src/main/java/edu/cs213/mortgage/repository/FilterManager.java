@@ -10,7 +10,7 @@ import java.util.StringJoiner;
 public class FilterManager {
     static final String ELIGIBILITY = "a.action_taken = 1 AND a.purchaser_type IN (0, 1, 2, 3, 4, 8)";
 
-    public record Query(String whereClause, List<Integer> parameters) {
+    public record Query(String whereClause, List<Number> parameters) {
         public Query {
             parameters = List.copyOf(parameters);
         }
@@ -22,7 +22,7 @@ public class FilterManager {
             groups.computeIfAbsent(filter.type(), ignored -> new ArrayList<>()).add(filter);
         }
         StringBuilder sql = new StringBuilder("WHERE ").append(ELIGIBILITY);
-        List<Integer> parameters = new ArrayList<>();
+        List<Number> parameters = new ArrayList<>();
         for (var group : groups.entrySet()) {
             String column = switch (group.getKey()) {
                 case MSAMD -> "l.msamd";
@@ -31,16 +31,32 @@ public class FilterManager {
                 case PROPERTY_TYPE -> "a.property_type";
                 case APPLICANT_INCOME -> "a.applicant_income_000s";
                 case OWNER_OCCUPANCY -> "a.owner_occupancy";
+                case COUNTY -> "l.county_code";
+                case INCOME_LOAN_RATIO -> "(a.applicant_income_000s::numeric / NULLIF(a.loan_amount_000s, 0))";
+                case TRACT_INCOME -> "l.tract_to_msamd_income";
             };
             StringJoiner alternatives = new StringJoiner(" OR ", " AND (", ")");
             for (Filter filter : group.getValue()) {
                 if (filter.type() == Filter.Type.APPLICANT_INCOME) {
                     alternatives.add(column + " BETWEEN ? AND ?");
-                    parameters.add(filter.value());
-                    parameters.add(filter.maximum());
+                    parameters.add(filter.value().intValueExact());
+                    parameters.add(filter.maximum().intValueExact());
+                } else if (filter.type() == Filter.Type.INCOME_LOAN_RATIO
+                        || filter.type() == Filter.Type.TRACT_INCOME) {
+                    if (filter.value() != null && filter.maximum() != null) {
+                        alternatives.add(column + " BETWEEN ? AND ?");
+                        parameters.add(filter.value());
+                        parameters.add(filter.maximum());
+                    } else if (filter.value() != null) {
+                        alternatives.add(column + " >= ?");
+                        parameters.add(filter.value());
+                    } else {
+                        alternatives.add(column + " <= ?");
+                        parameters.add(filter.maximum());
+                    }
                 } else {
                     alternatives.add(column + " = ?");
-                    parameters.add(filter.value());
+                    parameters.add(filter.value().intValueExact());
                 }
             }
             sql.append(alternatives);

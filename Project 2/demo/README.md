@@ -1,8 +1,8 @@
-# Mortgage backend — Phase 2
+# Mortgage backend - Phase 4
 
 The existing Java/Maven module now starts as a local Spring Boot application.
 It retains JDBC and the original mortgage workflow in reusable backend classes.
-There are no application REST endpoints yet. Phase 3 database setup is documented
+The REST contract and examples are documented in [API.md](API.md). Phase 3 database setup is documented
 in [database/README.md](../../database/README.md); frontend integration remains later work.
 
 ## Build and run
@@ -27,9 +27,7 @@ On Unix-like systems use `sh ./mvnw clean verify` and
 Maven 3.9.11 on first use; no global Maven installation is required.
 The first build requires internet access for Maven and dependencies.
 
-The server binds to `127.0.0.1:8080`. A request to `/` returns HTTP 404 because
-no application controller is implemented in this phase. Startup is confirmed by
-the Spring Boot/Tomcat startup log, not by a mortgage endpoint. Stop with Ctrl+C.
+The server binds to `127.0.0.1:8080`. Use GET /api/mortgages/options to verify database connectivity. Stop with Ctrl+C.
 
 ## Configuration
 
@@ -62,7 +60,7 @@ Eligible rows have `action_taken = 1` and purchaser type in `(0, 1, 2, 3, 4, 8)`
 Packaging updates purchaser type to `5`.
 The six existing filters remain: MSAMD, loan type, loan purpose, property type,
 applicant-income range, and owner occupancy. The database supports county, ratio
-and tract-income queries; their service/API exposure remains later work.
+and tract-income queries; these are now exposed through the API.
 
 Loan amounts and review totals remain in thousands. Rates use loan-amount
 weighting and a 2.33% base:
@@ -93,5 +91,4 @@ real JDBC queries, commit and rollback against PostgreSQL. Search joins the
 normalized location table for MSAMD, and nullable amount/income/MSAMD fields
 remain null. See the database documentation for import and SQL validation.
 
-The review object is internal Java orchestration, not a finalized HTTP contract.
-Frontend integration and the final REST contract remain outside this phase.
+The review object remains internal; explicit HTTP records are described in API.md. Frontend integration remains outside this phase.

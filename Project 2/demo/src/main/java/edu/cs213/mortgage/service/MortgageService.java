@@ -27,7 +27,7 @@ public class MortgageService {
                 MortgageCalculator.calculateRate(mortgages));
     }
 
-    /** Call only after confirmation of the portfolio returned by review. No HTTP contract yet. */
+    /** Call only after confirmation of the portfolio returned by review. */
     public int packageMortgages(Portfolio portfolio) throws SQLException {
         if (portfolio.rate().isEmpty() || MortgageCalculator.calculateRate(portfolio.mortgages()).isEmpty()) {
             throw new IllegalArgumentException("No calculable eligible portfolio to package.");

@@ -24,7 +24,8 @@ public class MortgageDAO {
         String query = """
             SELECT a.application_id, a.respondent_id, a.loan_type, a.loan_amount_000s,
                    a.action_taken, l.msamd, a.applicant_income_000s, a.rate_spread,
-                   a.purchaser_type, a.lien_status, a.property_type, a.loan_purpose, a.owner_occupancy
+                   a.purchaser_type, a.lien_status, a.property_type, a.loan_purpose, a.owner_occupancy,
+                   l.county_code, l.census_tract_number, l.tract_to_msamd_income
             FROM application a
             JOIN location l ON l.location_id = a.location_id
             """;
@@ -33,7 +34,12 @@ public class MortgageDAO {
         try (Connection conn = database.connect();
              PreparedStatement stmt = conn.prepareStatement(query + conditions.whereClause())) {
             for (int i = 0; i < conditions.parameters().size(); i++) {
-                stmt.setInt(i + 1, conditions.parameters().get(i));
+                Number value = conditions.parameters().get(i);
+                if (value instanceof Integer integer) {
+                    stmt.setInt(i + 1, integer);
+                } else {
+                    stmt.setBigDecimal(i + 1, (java.math.BigDecimal) value);
+                }
             }
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
@@ -46,7 +52,8 @@ public class MortgageDAO {
                         rs.getObject("applicant_income_000s", Integer.class), rateSpread,
                         rs.getInt("purchaser_type"), rs.getInt("lien_status"),
                         rs.getInt("property_type"), rs.getInt("loan_purpose"),
-                        rs.getInt("owner_occupancy")));
+                        rs.getInt("owner_occupancy"), rs.getObject("county_code", Integer.class),
+                        rs.getString("census_tract_number"), rs.getBigDecimal("tract_to_msamd_income")));
                 }
             }
         }
@@ -70,7 +77,7 @@ public class MortgageDAO {
                     for (int id : ids) {
                         stmt.setInt(1, id);
                         if (stmt.executeUpdate() != 1) {
-                            throw new SQLException("An application is missing or no longer eligible; packaging cancelled.");
+                            throw new SQLException("An application is missing or no longer eligible; packaging cancelled.", "40001");
                         }
                     }
                 }

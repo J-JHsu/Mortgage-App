@@ -14,6 +14,9 @@ public class Mortgage {
     private int propertyType;
     private int loanPurpose;
     private int ownerOccupancy;
+    private Integer countyCode;
+    private String censusTractNumber;
+    private java.math.BigDecimal tractToMsamdIncome;
 
     public Mortgage(int applicationId, String respondentId, int loanType, Integer loanAmount,
                     int actionTaken, Integer msamd,
@@ -34,7 +37,25 @@ public class Mortgage {
         this.ownerOccupancy = ownerOccupancy;
     }
 
-    // Getter for lienStatus
+    public Mortgage(int applicationId, String respondentId, int loanType, Integer loanAmount,
+                    int actionTaken, Integer msamd, Integer applicantIncome, Double rateSpread,
+                    int purchaserType, int lienStatus, int propertyType, int loanPurpose,
+                    int ownerOccupancy, Integer countyCode, String censusTractNumber,
+                    java.math.BigDecimal tractToMsamdIncome) {
+        this(applicationId, respondentId, loanType, loanAmount, actionTaken, msamd,
+                applicantIncome, rateSpread, purchaserType, lienStatus, propertyType, loanPurpose,
+                ownerOccupancy);
+        this.countyCode = countyCode;
+        this.censusTractNumber = censusTractNumber;
+        this.tractToMsamdIncome = tractToMsamdIncome;
+    }
+
+    public Integer getCountyCode() { return countyCode; }
+    public String getCensusTractNumber() { return censusTractNumber; }
+    public java.math.BigDecimal getTractToMsamdIncome() { return tractToMsamdIncome; }
+    public int getPropertyType() { return propertyType; }
+    public int getLoanPurpose() { return loanPurpose; }
+
     public int getLienStatus() {
         return lienStatus;
     }
