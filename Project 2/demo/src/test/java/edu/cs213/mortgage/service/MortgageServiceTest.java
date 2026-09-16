@@ -9,6 +9,17 @@ import static org.mockito.Mockito.*;
 
 class MortgageServiceTest {
     @Test
+    void missingLoanAmountRemainsUnquotableWithoutBreakingReview() throws SQLException {
+        MortgageDAO repository = mock(MortgageDAO.class);
+        when(repository.getFilteredMortgages(List.of())).thenReturn(List.of(
+                MortgageCalculatorTest.mortgage(10, null, null, 1)));
+        var review = new MortgageService(repository).review(List.of());
+        assertEquals(1, review.loanCount());
+        assertEquals(0, review.totalLoanAmountThousands());
+        assertTrue(review.rate().isEmpty());
+    }
+
+    @Test
     void reviewsDatabaseRowsAndPackagesExactlyTheReviewedIds() throws SQLException {
         MortgageDAO repository = mock(MortgageDAO.class);
         when(repository.getFilteredMortgages(List.of())).thenReturn(List.of(

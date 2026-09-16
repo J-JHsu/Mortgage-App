@@ -22,7 +22,8 @@ public class MortgageService {
 
     public Portfolio review(List<Filter> filters) throws SQLException {
         List<Mortgage> mortgages = search(filters);
-        return new Portfolio(mortgages, mortgages.stream().mapToDouble(Mortgage::getLoanAmount).sum(),
+        return new Portfolio(mortgages, mortgages.stream().map(Mortgage::getLoanAmount)
+                .filter(java.util.Objects::nonNull).mapToDouble(Integer::doubleValue).sum(),
                 MortgageCalculator.calculateRate(mortgages));
     }
 

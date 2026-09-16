@@ -4,10 +4,10 @@ public class Mortgage {
     private int applicationId;
     private String respondentId;
     private int loanType;
-    private int loanAmount;
+    private Integer loanAmount;
     private int actionTaken;
-    private int msamd;
-    private int applicantIncome;
+    private Integer msamd;
+    private Integer applicantIncome;
     private Double rateSpread;
     private int purchaserType;
     private int lienStatus;
@@ -15,9 +15,9 @@ public class Mortgage {
     private int loanPurpose;
     private int ownerOccupancy;
 
-    public Mortgage(int applicationId, String respondentId, int loanType, int loanAmount,
-                    int actionTaken, int msamd,
-                    int applicantIncome, Double rateSpread, int purchaserType, int lienStatus,
+    public Mortgage(int applicationId, String respondentId, int loanType, Integer loanAmount,
+                    int actionTaken, Integer msamd,
+                    Integer applicantIncome, Double rateSpread, int purchaserType, int lienStatus,
                     int propertyType, int loanPurpose, int ownerOccupancy) {
         this.applicationId = applicationId;
         this.respondentId = respondentId;
@@ -43,10 +43,10 @@ public class Mortgage {
     public int getApplicationId() { return applicationId; }
     public String getRespondentId() { return respondentId; }
     public int getLoanType() { return loanType; }
-    public int getLoanAmount() { return loanAmount; }
+    public Integer getLoanAmount() { return loanAmount; }
     public int getActionTaken() { return actionTaken; }
-    public int getMsamd() { return msamd; }
-    public int getApplicantIncome() { return applicantIncome; }
+    public Integer getMsamd() { return msamd; }
+    public Integer getApplicantIncome() { return applicantIncome; }
     public Double getRateSpread() { return rateSpread; }
     public int getPurchaserType() { return purchaserType; }
     public int getOwnerOccupancy() { return ownerOccupancy; }

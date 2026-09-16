@@ -15,7 +15,7 @@ public class MortgageCalculator {
         double weightedSum = 0;
         double totalLoanAmount = 0;
         for (Mortgage mortgage : mortgages) {
-            if (mortgage == null || mortgage.getLoanAmount() <= 0) {
+            if (mortgage == null || mortgage.getLoanAmount() == null || mortgage.getLoanAmount() <= 0) {
                 return OptionalDouble.empty();
             }
             OptionalDouble rate = determineFinalRate(mortgage);
@@ -35,7 +35,7 @@ public class MortgageCalculator {
         if (spread != null && !Double.isFinite(spread)) {
             return OptionalDouble.empty();
         }
-        // Preserve the legacy nonpositive unknown marker until the real CSV is mapped.
+        // Imported missing spreads are NULL; retain the legacy nonpositive marker defensively.
         if (spread == null || spread <= 0) {
             return switch (mortgage.getLienStatus()) {
                 case 1 -> OptionalDouble.of(BASE_RATE + 1.5);

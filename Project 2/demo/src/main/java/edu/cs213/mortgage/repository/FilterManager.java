@@ -25,7 +25,7 @@ public class FilterManager {
         List<Integer> parameters = new ArrayList<>();
         for (var group : groups.entrySet()) {
             String column = switch (group.getKey()) {
-                case MSAMD -> "a.msamd";
+                case MSAMD -> "l.msamd";
                 case LOAN_TYPE -> "a.loan_type";
                 case LOAN_PURPOSE -> "a.loan_purpose";
                 case PROPERTY_TYPE -> "a.property_type";

@@ -37,8 +37,11 @@ class MortgageDAOTest {
         when(rows.wasNull()).thenReturn(true);
         var result = repository.getFilteredMortgages(List.of(new Filter(Filter.Type.MSAMD, 35084)));
         verify(statement).setInt(1, 35084);
-        verify(connection).prepareStatement(argThat(sql -> sql.contains("a.msamd = ?") && !sql.contains("35084")));
+        verify(connection).prepareStatement(argThat(sql -> sql.contains("l.msamd = ?") && !sql.contains("35084")));
         assertNull(result.get(0).getRateSpread());
+        assertNull(result.get(0).getLoanAmount());
+        assertNull(result.get(0).getApplicantIncome());
+        assertNull(result.get(0).getMsamd());
         verify(rows).close();
         verify(connection).close();
     }

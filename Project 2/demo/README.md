@@ -2,8 +2,8 @@
 
 The existing Java/Maven module now starts as a local Spring Boot application.
 It retains JDBC and the original mortgage workflow in reusable backend classes.
-There are no application REST endpoints yet. Database schema/import and frontend
-integration belong to later phases.
+There are no application REST endpoints yet. Phase 3 database setup is documented
+in [database/README.md](../../database/README.md); frontend integration remains later work.
 
 ## Build and run
 
@@ -61,16 +61,16 @@ request-local; no shared mutable filter list is retained in the service.
 Eligible rows have `action_taken = 1` and purchaser type in `(0, 1, 2, 3, 4, 8)`.
 Packaging updates purchaser type to `5`.
 The six existing filters remain: MSAMD, loan type, loan purpose, property type,
-applicant-income range, and owner occupancy. Geographic and ratio filters await
-the actual dataset/schema mapping.
+applicant-income range, and owner occupancy. The database supports county, ratio
+and tract-income queries; their service/API exposure remains later work.
 
 Loan amounts and review totals remain in thousands. Rates use loan-amount
 weighting and a 2.33% base:
 
 - Known positive spread: use the actual spread plus 2.33%, with no minimum floor.
 - Unavailable spread: add 1.5 percentage points for first liens or 3.5 for second liens.
-- SQL NULL spreads remain null. The legacy nonpositive-spread unknown marker is
-  retained until the actual CSV representation is inspected in Phase 3.
+- Imported empty spread values become SQL NULL. The legacy nonpositive-spread
+  marker remains supported defensively; the imported populated spreads are positive.
 - Empty portfolios, nonpositive loan amounts, nonfinite spreads/results, or
   unavailable spreads without a supported lien assumption return
   `OptionalDouble.empty()`. No partial portfolio is silently quoted.
@@ -88,10 +88,10 @@ are preserved as suppressed exceptions. The connection is then closed.
 filter grouping/parameter ordering, service orchestration, database error
 propagation, JDBC transaction paths, and database-free web-server startup.
 
-Transaction tests use mocked JDBC connections. They verify application control
-flow, not PostgreSQL behavior. The current SQL still assumes the original
-`application` table/columns. Real queries, source null/sentinel mappings, and
-database rollback must be verified once Phase 3 supplies the database.
+Unit transaction tests use mocked JDBC connections. Phase 3 additionally verified
+real JDBC queries, commit and rollback against PostgreSQL. Search joins the
+normalized location table for MSAMD, and nullable amount/income/MSAMD fields
+remain null. See the database documentation for import and SQL validation.
 
 The review object is internal Java orchestration, not a finalized HTTP contract.
-No schema/import scripts, frontend changes, or new product features are included.
+Frontend integration and the final REST contract remain outside this phase.

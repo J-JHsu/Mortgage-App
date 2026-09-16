@@ -23,9 +23,10 @@ public class MortgageDAO {
     public List<Mortgage> getFilteredMortgages(List<Filter> filters) throws SQLException {
         String query = """
             SELECT a.application_id, a.respondent_id, a.loan_type, a.loan_amount_000s,
-                   a.action_taken, a.msamd, a.applicant_income_000s, a.rate_spread,
+                   a.action_taken, l.msamd, a.applicant_income_000s, a.rate_spread,
                    a.purchaser_type, a.lien_status, a.property_type, a.loan_purpose, a.owner_occupancy
             FROM application a
+            JOIN location l ON l.location_id = a.location_id
             """;
         FilterManager.Query conditions = FilterManager.buildWhereClause(filters);
         List<Mortgage> mortgages = new ArrayList<>();
@@ -40,9 +41,9 @@ public class MortgageDAO {
                     Double rateSpread = rs.wasNull() ? null : spread;
                     mortgages.add(new Mortgage(
                         rs.getInt("application_id"), rs.getString("respondent_id"),
-                        rs.getInt("loan_type"), rs.getInt("loan_amount_000s"),
-                        rs.getInt("action_taken"), rs.getInt("msamd"),
-                        rs.getInt("applicant_income_000s"), rateSpread,
+                        rs.getInt("loan_type"), rs.getObject("loan_amount_000s", Integer.class),
+                        rs.getInt("action_taken"), rs.getObject("msamd", Integer.class),
+                        rs.getObject("applicant_income_000s", Integer.class), rateSpread,
                         rs.getInt("purchaser_type"), rs.getInt("lien_status"),
                         rs.getInt("property_type"), rs.getInt("loan_purpose"),
                         rs.getInt("owner_occupancy")));

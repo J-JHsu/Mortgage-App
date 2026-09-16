@@ -17,7 +17,7 @@ class FilterManagerTest {
     @Test
     void singleValueIsBound() {
         var query = FilterManager.buildWhereClause(List.of(new Filter(MSAMD, 35084)));
-        assertTrue(query.whereClause().endsWith("AND (a.msamd = ?)"));
+        assertTrue(query.whereClause().endsWith("AND (l.msamd = ?)"));
         assertFalse(query.whereClause().contains("35084"));
         assertEquals(List.of(35084), query.parameters());
     }
