@@ -1,4 +1,4 @@
-package edu.cs213.mortgage;
+package edu.cs213.mortgage.repository;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -10,11 +10,9 @@ public class TransactionManager {
 
     public static void commitTransaction(Connection conn) throws SQLException {
         conn.commit();
-        conn.setAutoCommit(true);
     }
 
     public static void rollbackTransaction(Connection conn) throws SQLException {
         conn.rollback();
-        conn.setAutoCommit(true);
     }
 }

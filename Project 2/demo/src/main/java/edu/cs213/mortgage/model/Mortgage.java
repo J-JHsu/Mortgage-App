@@ -1,4 +1,4 @@
-package edu.cs213.mortgage;
+package edu.cs213.mortgage.model;
 
 public class Mortgage {
     private int applicationId;
@@ -8,7 +8,7 @@ public class Mortgage {
     private int actionTaken;
     private int msamd;
     private int applicantIncome;
-    private double rateSpread;      
+    private Double rateSpread;
     private int purchaserType;
     private int lienStatus;
     private int propertyType;
@@ -17,7 +17,7 @@ public class Mortgage {
 
     public Mortgage(int applicationId, String respondentId, int loanType, int loanAmount,
                     int actionTaken, int msamd,
-                    int applicantIncome, double rateSpread, int purchaserType, int lienStatus, 
+                    int applicantIncome, Double rateSpread, int purchaserType, int lienStatus,
                     int propertyType, int loanPurpose, int ownerOccupancy) {
         this.applicationId = applicationId;
         this.respondentId = respondentId;
@@ -47,7 +47,7 @@ public class Mortgage {
     public int getActionTaken() { return actionTaken; }
     public int getMsamd() { return msamd; }
     public int getApplicantIncome() { return applicantIncome; }
-    public double getRateSpread() { return rateSpread; }
+    public Double getRateSpread() { return rateSpread; }
     public int getPurchaserType() { return purchaserType; }
     public int getOwnerOccupancy() { return ownerOccupancy; }
 }
